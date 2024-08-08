@@ -1,0 +1,13 @@
+[
+  {
+    "id": "830f595d-0a7f-44c0-acb7-7a98628e0756",
+    "fullname": "khidirbek admin",
+    "username": "admin",
+    "email": "user@example.com",
+    "job_title": "employee",
+    "department": "NBD",
+    "tel": "+998901234567",
+    "password": "$2a$10$07X7TwFyrtEhPTIW8NHgP.j0E6C6Y7M21CTI8OCVaeAAdWQ64m7K6",
+    "role": "admin"
+  }
+]
