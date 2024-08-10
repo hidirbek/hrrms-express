@@ -19,10 +19,16 @@ router.get("/get_all", authMiddleware, (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-router.get("/se", authMiddleware, (req, res) => {
+router.get("/search", authMiddleware, (req, res) => {
+  const { fullname } = req.headers;
+  // console.log(fullname);
+
   try {
     const employees = readJSONFile(employeesFilePath);
-    res.json(employees);
+    const filteredEmployees = employees.filter((employee) =>
+      employee.fullname.toLowerCase().includes(fullname.toLowerCase())
+    );
+    res.json(filteredEmployees);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -33,18 +39,44 @@ router.post(
   authMiddleware,
   roleMiddleware("admin", "HR"),
   (req, res) => {
-    const { tr_title, department, division, floor, time } = req.body;
+    const {
+      fullname,
+      tel,
+      d_birth,
+      gender,
+      nation,
+      marriage,
+      work_tel,
+      address,
+      city,
+      country,
+      email,
+      job_title,
+      department,
+      emp_status,
+      division,
+    } = req.body;
     // console.log(req.body);
 
     try {
       const employees = readJSONFile(employeesFilePath);
       const newEmployee = {
         id: uuidv4(),
-        tr_title,
+        fullname,
+        tel,
+        d_birth,
+        gender,
+        nation,
+        marriage,
+        work_tel,
+        address,
+        city,
+        country,
+        email,
+        job_title,
         department,
+        emp_status,
         division,
-        floor,
-        time,
       };
       employees.push(newEmployee);
       writeJSONFile(employeesFilePath, employees);
@@ -60,7 +92,23 @@ router.put(
   authMiddleware,
   roleMiddleware("admin", "HR"),
   (req, res) => {
-    const { tr_title, department, division, floor, time } = req.body;
+    const {
+      fullname,
+      tel,
+      d_birth,
+      gender,
+      nation,
+      marriage,
+      work_tel,
+      address,
+      city,
+      country,
+      email,
+      job_title,
+      department,
+      emp_status,
+      division,
+    } = req.body;
     // console.log(req.params.id);
     console.log(req.body);
 
@@ -73,20 +121,50 @@ router.put(
       if (employeeIndex === -1)
         return res.status(404).json({ message: "Employee not found" });
 
-      if (tr_title) {
-        employees[employeeIndex].tr_title = tr_title;
+      if (fullname) {
+        employees[employeeIndex].fullname = fullname;
       }
-      if (division) {
-        employees[employeeIndex].division = division;
+      if (tel) {
+        employees[employeeIndex].tel = tel;
       }
-      if (floor) {
-        employees[employeeIndex].floor = floor;
+      if (d_birth) {
+        employees[employeeIndex].d_birth = d_birth;
       }
-      if (time) {
-        employees[employeeIndex].time = time;
+      if (gender) {
+        employees[employeeIndex].gender = gender;
+      }
+      if (nation) {
+        employees[employeeIndex].nation = nation;
+      }
+      if (marriage) {
+        employees[employeeIndex].marriage = marriage;
+      }
+      if (work_tel) {
+        employees[employeeIndex].work_tel = work_tel;
+      }
+      if (address) {
+        employees[employeeIndex].address = address;
+      }
+      if (city) {
+        employees[employeeIndex].city = city;
+      }
+      if (country) {
+        employees[employeeIndex].country = country;
+      }
+      if (email) {
+        employees[employeeIndex].email = email;
+      }
+      if (job_title) {
+        employees[employeeIndex].job_title = job_title;
       }
       if (department) {
         employees[employeeIndex].department = department;
+      }
+      if (emp_status) {
+        employees[employeeIndex].emp_status = emp_status;
+      }
+      if (division) {
+        employees[employeeIndex].division = division;
       }
       writeJSONFile(employeesFilePath, employees);
       res.json({ message: "Employee updated" });

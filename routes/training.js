@@ -19,6 +19,20 @@ router.get("/get_all", authMiddleware, (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.get("/search", authMiddleware, (req, res) => {
+  const { tr_title } = req.headers;
+  // console.log(tr_title);
+
+  try {
+    const trainings = readJSONFile(trainingsFilePath);
+    const filteredTrainings = trainings.filter((train) =>
+      train.tr_title.toLowerCase().includes(tr_title.toLowerCase())
+    );
+    res.json(filteredTrainings);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 router.post(
   "/create",
